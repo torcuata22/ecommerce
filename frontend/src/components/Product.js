@@ -9,7 +9,7 @@ function Product({ product }) {
       <Link to={`/product/${product.id}`}>
         <Card.Img
           src={product.image}
-          style={{ height: "275px", width: "275px" }}
+          style={{ height: "268px", width: "268px" }}
         />
       </Link>
 
