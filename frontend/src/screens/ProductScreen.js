@@ -8,7 +8,7 @@ import {
   ListGroup,
   Button,
   Card,
-  ListGroupItem,
+  Form,
 } from "react-bootstrap";
 import Rating from "../components/Rating";
 import Loader from "../components/Loader";
@@ -16,6 +16,7 @@ import Message from "../components/Message";
 import { listProductDetails } from "../actions/productActions";
 
 function ProductScreen() {
+  const [qty, setQty] = useState(1);
   const match = useParams();
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
@@ -23,7 +24,7 @@ function ProductScreen() {
 
   useEffect(() => {
     dispatch(listProductDetails(match.id));
-  }, []);
+  }, [dispatch, match]); //added this list without checking, worked with empty list
 
   return (
     <div>
@@ -82,7 +83,26 @@ function ProductScreen() {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-
+                {product.countInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Qty</Col>
+                      <Col xs="auto" className="my-1">
+                        <Form.Control
+                          as="select"
+                          value={qty}
+                          onChange={(e) => setQty(e.target.value)}
+                        >
+                          {[...Array(product.countInStock).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
                 <ListGroup.Item>
                   <Button
                     className="btn-block"
