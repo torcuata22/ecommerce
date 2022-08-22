@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import {
   Row,
   Col,
@@ -16,6 +16,7 @@ import Message from "../components/Message";
 import { listProductDetails } from "../actions/productActions";
 
 function ProductScreen() {
+  const navigate = useNavigate();
   const [qty, setQty] = useState(1);
   const match = useParams();
   const dispatch = useDispatch();
@@ -25,6 +26,10 @@ function ProductScreen() {
   useEffect(() => {
     dispatch(listProductDetails(match.id));
   }, [dispatch, match]); //added this list without checking, worked with empty list
+
+  const addToCartHandler = () => {
+    navigate(`/cart/:id?qty={qty}`);
+  };
 
   return (
     <div>
@@ -105,6 +110,7 @@ function ProductScreen() {
                 )}
                 <ListGroup.Item>
                   <Button
+                    onClick={addToCartHandler}
                     className="btn-block"
                     disabled={product.countInStock === 0}
                     type="button"
