@@ -28,7 +28,7 @@ function ProductScreen() {
   }, [dispatch, match]); //added this list without checking, worked with empty list
 
   const addToCartHandler = () => {
-    navigate(`/cart/:id?qty={qty}`);
+    navigate(`/cart/${product.id}?${qty}`);
   };
 
   return (

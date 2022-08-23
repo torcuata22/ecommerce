@@ -18,6 +18,7 @@ function App() {
               <Route path="/product/:id" element={<ProductScreen />} />
               <Route path="cart" element={<CartScreen />}>
                 <Route path=":id" element={<CartScreen />} />
+                <Route path="qty" element={<CartScreen />} />
               </Route>
             </Routes>
           </Container>
