@@ -18,7 +18,7 @@ function CartScreen() {
   const match = useParams();
   const location = useLocation();
   const productId = match.id;
-  const qty = location.search ? location.search.split("=")[1] : 1; //qty undefined
+  const qty = location.search ? location.search.split("=")[1] : 1;
 
   const dispatch = useDispatch();
 
@@ -40,7 +40,23 @@ function CartScreen() {
             Your cart is empty <Link to="/">Go Back</Link>
           </Message>
         ) : (
-          <ListGroup variant="flush"></ListGroup>
+          <ListGroup variant="flush">
+            {cartItems.map((item) => (
+              <ListGroup.Item key={item.product}>
+                <Row>
+                  <Col md={2}>
+                    <Image source={item.image} alt={item.name} fluid rounded />
+                  </Col>
+                  <Col md={3}>
+                    <Link to={"/product/" + `${item.product}`}>
+                      {item.name}
+                    </Link>
+                  </Col>
+                  <Col md={2}>${item.price}</Col>
+                </Row>
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
         )}
       </Col>
 
