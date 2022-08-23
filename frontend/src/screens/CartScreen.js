@@ -10,7 +10,7 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
-import { Message } from "../components/Message";
+import Message from "../components/Message";
 import { addToCart } from "../actions/cartActions";
 
 function CartScreen() {
@@ -22,13 +22,31 @@ function CartScreen() {
 
   const dispatch = useDispatch();
 
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
+
   useEffect(() => {
     if (productId) {
       dispatch(addToCart(productId, qty));
     }
   }, [dispatch, productId, qty]);
 
-  return <div>Cart</div>;
+  return (
+    <Row>
+      <Col md={8}>
+        <h1>Shopping Cart</h1>
+        {cartItems.length === 0 ? (
+          <Message variant="info">
+            Your cart is empty <Link to="/">Go Back</Link>
+          </Message>
+        ) : (
+          <ListGroup variant="flush"></ListGroup>
+        )}
+      </Col>
+
+      <Col md={4}></Col>
+    </Row>
+  );
 }
 
 export default CartScreen;
