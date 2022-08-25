@@ -6,11 +6,12 @@ import { Link } from "react-router-dom";
 function Product({ product }) {
   return (
     <Card className="my-3 p-3 rounded p-info">
-      <Link to={`/product/${product.id}`}>
-        <Card.Img
-          src={product.image}
-          style={{ height: "268px", width: "268px" }}
-        />
+      <Link
+        to={`/product/${product.id}`}
+        className="w-100"
+        style={{ height: "268px" }}
+      >
+        <Card.Img src={product.image} style={{ height: "100%" }} />
       </Link>
 
       <Card.Body>
@@ -23,7 +24,7 @@ function Product({ product }) {
           <div className="my-3">
             <Rating
               value={product.rating}
-              text={`${product.numReviews} reviews`}
+              //text={`${product.numReviews} reviews`}
               color={"#f8e825"}
             />
           </div>

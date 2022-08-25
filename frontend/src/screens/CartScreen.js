@@ -18,7 +18,8 @@ function CartScreen() {
   const match = useParams();
   const location = useLocation();
   const productId = match.id;
-  const qty = location.search ? location.search.split("=")[1] : 1;
+  const qty = 1; //this works in the cart
+  //location.search ? location.search.split("=")[1] : 1;
 
   const dispatch = useDispatch();
 
@@ -53,7 +54,7 @@ function CartScreen() {
               <ListGroup.Item key={item.product}>
                 <Row>
                   <Col md={2}>
-                    <Image source={item.image} alt={item.name} fluid rounded />
+                    <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
                   <Col md={3}>
                     <Link to={"/product/" + `${item.product}`}>
@@ -101,6 +102,9 @@ function CartScreen() {
               <h2>
                 Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
                 items
+                {console.log(
+                  typeof cartItems.reduce((acc, item) => acc + item.qty, 0)
+                )}
               </h2>
               $
               {cartItems
@@ -109,16 +113,14 @@ function CartScreen() {
             </ListGroup.Item>
           </ListGroup>
 
-          <ListGroup.Item>
-            <Button
-              type="button"
-              className="btn-block"
-              disabled={cartItems.length === 0}
-              onClick={checkoutHandler}
-            >
-              Proceed To Checkout
-            </Button>
-          </ListGroup.Item>
+          <Button
+            type="button"
+            className="btn btn-block"
+            disabled={cartItems.length === 0}
+            onClick={checkoutHandler}
+          >
+            Proceed To Checkout
+          </Button>
         </Card>
       </Col>
     </Row>

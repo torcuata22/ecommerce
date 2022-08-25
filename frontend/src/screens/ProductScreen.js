@@ -25,7 +25,7 @@ function ProductScreen() {
 
   useEffect(() => {
     dispatch(listProductDetails(match.id));
-  }, [dispatch, match]); //added this list without checking, worked with empty list
+  }, [dispatch, match]);
 
   const addToCartHandler = () => {
     navigate(`/cart/${product.id}?${qty}`);
@@ -91,9 +91,9 @@ function ProductScreen() {
                 {product.countInStock > 0 && (
                   <ListGroup.Item>
                     <Row>
-                      <Col>Qty</Col>
-                      <Col xs="auto" className="my-1">
-                        <Form.Control
+                      {/* <Col>Qty</Col>
+                      <Col xs="auto" className="my-1"> */}
+                      {/* <Form.Control
                           as="select"
                           value={qty}
                           onChange={(e) => setQty(e.target.value)}
@@ -103,8 +103,8 @@ function ProductScreen() {
                               {x + 1}
                             </option>
                           ))}
-                        </Form.Control>
-                      </Col>
+                        </Form.Control> */}
+                      {/* </Col> */}
                     </Row>
                   </ListGroup.Item>
                 )}
