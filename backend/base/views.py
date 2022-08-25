@@ -8,7 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Product
 from .products import products
-from .serializers import ProductSerializer, UserSerializer
+from .serializers import ProductSerializer, UserSerializer, UserSerializerWithToken
 # Create your views here.
 
 
@@ -29,8 +29,9 @@ def getRoutes(request):
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
-        data['username'] = self.user.username
-        data['email'] = self.user.email
+        serializer = UserSerializerWithToken(self.user).data
+        for key, value in serializer.items():
+            data[key]=value
         return data
  
     # @classmethod (not using it, but leave it for reference)
