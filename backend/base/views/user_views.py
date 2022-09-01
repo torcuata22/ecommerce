@@ -51,11 +51,21 @@ def registerUser(request):
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
  
 
-@api_view(['GET'])
+@api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def getUserProfile(request):
-    user = request.user #pulling data from token b/c of decorator (not same user as admin panel)
-    serializer = UserSerializer(user, many=False)
+def updateUserProfile(request):
+    user = request.user 
+    serializer = UserSerializerWithToken(user, many=False)
+    
+    data =request.data 
+    user.first_name=data['first_name']
+    user.username=data['email']
+    user.email=data['email']
+    if data['password'] != ' ' :
+        user.password =  make_password(data['password']) 
+    
+    user.save() #saves regardless of password update
+    
     return Response(serializer.data)
 
     
