@@ -6,7 +6,11 @@ import {
   productDetailsReducer,
 } from "./reducers/productReducers";
 import { cartReducer } from "./reducers/cartReducers";
-import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
+import {
+  userLoginReducer,
+  userRegisterReducer,
+  userDetailsReducer,
+} from "./reducers/userReducers";
 
 const reducer = combineReducers({
   productList: productListReducer,
@@ -14,6 +18,7 @@ const reducer = combineReducers({
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  userDetails: userDetailsReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")
@@ -22,17 +27,11 @@ const cartItemsFromStorage = localStorage.getItem("cartItems")
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
-  : null; //should this be undefined instead of null?
-
-//ADD THIS? localStorage.setItem("key", "value")
-//const [items, setItems] = useState([]); (on top?)
-// useEffect(() => {localStorage.setItem("userInfo",
-// JSON.stringify(userInfo));}, [userInfo]);
-// is this the problem? Do I need to do this, and then change the name of every REGISTER file that uses it to new variable?
+  : null;
 
 const initialState = {
   cart: { cartItems: cartItemsFromStorage },
-  userLogin: { userInfo: userInfoFromStorage }, //shouldn't I add userRegister here?
+  userLogin: { userInfo: userInfoFromStorage },
 };
 
 const middleware = [thunk];
