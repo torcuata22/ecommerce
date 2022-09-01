@@ -97,16 +97,15 @@ function RegisterScreen() {
         <Button type="submit" variant="primary">
           Register
         </Button>
-
-        <Row className="py-3">
-          <Col>
-            Already have an account?{" "}
-            <Link to={redirect ? `/register?redirect=${redirect}` : "/login"}>
-              Sign In
-            </Link>
-          </Col>
-        </Row>
       </Form>
+      <Row className="py-3">
+        <Col>
+          Already have an account?{" "}
+          <Link to={redirect ? `/register?redirect=${redirect}` : "/login"}>
+            Sign In
+          </Link>
+        </Col>
+      </Row>
     </FormContainer>
   );
 }
