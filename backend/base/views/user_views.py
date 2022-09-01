@@ -38,7 +38,7 @@ def registerUser(request):
     try:
         user=User.objects.create(
             first_name = data['first_name'],
-            last_name= data['last_name'],
+            #last_name= data['last_name'], this is what was causing the error: fields didn't match
             username = data['email'], 
             email = data['email'],
             password = make_password(data['password'])
@@ -50,16 +50,25 @@ def registerUser(request):
         message={'detail':'User with this email already exists'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
  
+
 @api_view(['GET'])
-@permission_classes([IsAdminUser])
-def getUsers(request):
-    users = User.objects.all() 
-    serializer = UserSerializer(users, many=True)
+@permission_classes([IsAuthenticated])
+def getUserProfile(request):
+    user = request.user #pulling data from token b/c of decorator (not same user as admin panel)
+    serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
+
     
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getUserProfile(request):
     user = request.user #pulling data from token b/c of decorator (not same user as admin panel)
     serializer = UserSerializer(user, many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def getUsers(request):
+    users = User.objects.all() 
+    serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
