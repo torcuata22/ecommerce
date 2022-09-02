@@ -3,23 +3,32 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../components/FormContainer";
+import CheckoutSteps from "../components/CheckoutSteps";
+import { saveShippingAddress } from "../actions/cartActions";
 
 function ShippingScreen() {
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [zipCode, setZipCode] = useState("");
-  const [country, setCountry] = useState("");
+  const cart = useSelector((state) => state.cart);
+  //const { shippingAddress } = cart; something is wrong with this (not sure what)
+
+  const dispatch = useDispatch();
+
+  const [address, setAddress] = useState(cart.address); //preload address, so you don't have to refill if you leave and come back
+  const [city, setCity] = useState(cart.city); //error message: can't read shippingAddress.address
+  const [zipCode, setZipCode] = useState(cart.zipCode);
+  const [country, setCountry] = useState(cart.country);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("Submitted");
+    dispatch(saveShippingAddress({ address, city, zipCode, country }));
+    navigate("/payment");
   };
 
   return (
     <FormContainer>
+      <CheckoutSteps step1 step2 />
       <h1>Shipping</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="address">
