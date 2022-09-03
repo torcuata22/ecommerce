@@ -7,6 +7,11 @@ import CheckoutSteps from "../components/CheckoutSteps";
 
 function PlaceOrderScreen() {
   const cart = useSelector((state) => state.cart);
+
+  const placeOrder = () => {
+    console.log("place order");
+  };
+
   return (
     <div>
       <CheckoutSteps step1 step2 step3 step4 />
@@ -53,6 +58,10 @@ function PlaceOrderScreen() {
                             {item.name}
                           </Link>
                         </Col>
+                        <Col md={4}>
+                          {item.qty} x ${item.price} = $
+                          {(item.qty * item.price).toFixed(2)}
+                        </Col>
                       </Row>
                     </ListGroup.Item>
                   ))}
@@ -62,7 +71,53 @@ function PlaceOrderScreen() {
           </ListGroup>
         </Col>
 
-        <Col md={4}></Col>
+        <Col md={4}>
+          <Card>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <h2>Order Summary</h2>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Item:</Col>
+                  <Col>${cart.itemsPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+
+              <ListGroup.Item>
+                <Row>
+                  <Col>Shipping:</Col>
+                  <Col>${cart.shippingPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+
+              <ListGroup.Item>
+                <Row>
+                  <Col>Tax:</Col>
+                  <Col>${cart.taxPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+
+              <ListGroup.Item>
+                <Row>
+                  <Col>Total:</Col>
+                  <Col>${cart.totalPrice}</Col>
+                </Row>
+              </ListGroup.Item>
+
+              <ListGroup.Item>
+                <Button
+                  type="button"
+                  className="btn-block"
+                  disabled={cart.cartItems === 0}
+                  onClick={placeOrder}
+                >
+                  Place Order
+                </Button>
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
+        </Col>
       </Row>
     </div>
   );
