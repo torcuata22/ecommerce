@@ -18,6 +18,16 @@ function PlaceOrderScreen() {
               <p>
                 <strong>Shipping: </strong>
                 {cart.shippingAddress.address}, {cart.shippingAddress.city}
+                {"  "}
+                {cart.shippingAddress.zipCode}, {cart.shippingAddress.country}
+              </p>
+            </ListGroup.Item>
+
+            <ListGroup.Item>
+              <h2>Payment Method</h2>
+              <p>
+                <strong>Payment Method: </strong>
+                {cart.paymentMethod}
               </p>
             </ListGroup.Item>
           </ListGroup>
