@@ -8,6 +8,19 @@ import CheckoutSteps from "../components/CheckoutSteps";
 function PlaceOrderScreen() {
   const cart = useSelector((state) => state.cart);
 
+  //these are just for this page, they don't update the store (dynamic values to calculate price)
+  cart.itemsPrice = cart.cartItems
+    .reduce((acc, item) => acc + item.price * item.qty, 0)
+    .toFixed(2);
+
+  cart.shippingPrice = (cart.itemsPrice > 50 ? 0 : 5).toFixed(2);
+  cart.taxPrice = Number((cart.itemsPrice * 0.065).toFixed(2));
+  cart.totalPrice = (
+    Number(cart.itemsPrice) +
+    Number(cart.shippingPrice) +
+    Number(cart.taxPrice)
+  ).toFixed(2);
+
   const placeOrder = () => {
     console.log("place order");
   };
@@ -79,7 +92,7 @@ function PlaceOrderScreen() {
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Item:</Col>
+                  <Col>Items price:</Col>
                   <Col>${cart.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
