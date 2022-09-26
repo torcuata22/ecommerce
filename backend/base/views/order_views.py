@@ -1,11 +1,9 @@
-from django.shortcuts import render
-from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
-from django.contrib.auth.hashers import make_password
+
+from django.contrib.auth.models import User
+
 from rest_framework import status
 
 
@@ -13,13 +11,14 @@ from base.models import Product, Order, OrderItem, ShippingAddress
 
 from base.serializers import ProductSerializer, OrderSerializer
 
+
 @api_view(['POST'])
-@permission_classes(['IsAuthenticated'])
+@permission_classes([IsAuthenticated]) #this is an import, not a string!
 def addOrderItems(request):
     user = request.user
     data = request.data
     
-    orderItems = data['orderItems']
+    orderItems = data['orderItems'] #sent from front end, JSON objects
     if orderItems and len (orderItems) == 0:
         return Response({'detail':'No Order Items'}, status = status.HTTP_400_BAD_REQUEST)
     
@@ -34,7 +33,7 @@ def addOrderItems(request):
         )
         
         #create shipping address
-        shipping = ShippingAddress.objects.create (
+        shipping = ShippingAddress.objects.create ( 
             order = order,
             address = data['shippingAddress']['address'],
             city = data['shippingAddress']['city'],
@@ -43,10 +42,10 @@ def addOrderItems(request):
         )
         #create order items by iterating through list 
         for i in orderItems:
-            product = Product.objects.get(id = i['product'])
+            product = Product.objects.get(id = i['product']) #this connects to Product model (relationship)
             
             item = OrderItem.objects.create(
-                product= product,
+                product= product, #product we just queried from database
                 order= order,
                 name= product.name,
                 qty= i['qty'],
@@ -56,6 +55,6 @@ def addOrderItems(request):
          #update stock (still inside the loop)
             product.countInStock -= item.qty
             product.save()
-        
-    serializer = OrderSerializer(order, many = True)
-    return Response(serializer.data)
+        #serialize data so we can use it in react:
+        serializer = OrderSerializer(order, many = False)
+        return Response(serializer.data)

@@ -10,16 +10,16 @@ class UserSerializer(serializers.ModelSerializer):
     isAdmin = serializers.SerializerMethodField(read_only = True)
     class Meta:
         model = User
-        fields= ['id', 'username', 'email', 'name', 'isAdmin']
+        fields= ['id', 'first_name','email', 'name', 'isAdmin']
     
     def get_isAdmin(self, obj):
         return obj.is_staff
     
     def get_name(self, obj):
-        name = obj.first_name
-        if name == '':
-            name = obj.email
-        return name 
+          name = obj.first_name
+          if name == '':
+              name = obj.email
+          return name 
 
 class UserSerializerWithToken(UserSerializer):
     token = serializers.SerializerMethodField(read_only = True)
@@ -48,15 +48,15 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields= '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):
-    orders = serializers.SerializerMethodField(read_only = True)
+    orderItems = serializers.SerializerMethodField(read_only = True) #formerly orders
     shippingAddress = serializers.SerializerMethodField(read_only = True)
     user = serializers.SerializerMethodField(read_only = True)
     class Meta:
         model = Order
         fields= '__all__'
     
-    def get_orders(self,obj):
-        items = obj.orderItem_set.all()
+    def get_orderItems(self,obj): #former get_orders
+        items = obj.orderitem_set.all()
         serializer = OrderItemSerializer(items, many = True)
         return serializer.data
     
@@ -69,6 +69,13 @@ class OrderSerializer(serializers.ModelSerializer):
         return address
     
     def get_user(self,obj):
-        user = obj.user.all()
-        serializer = UserSerializer(user, many = False)
+        user =User.objects.all()        #used to be obj.user.all(), but that generated an error
+        serializer = UserSerializer(obj.user)
+        #serializer = UserSerializer(user, many = False)
         return serializer.data
+    
+    
+    #TRY:
+    #def get_user(self, obj):
+    #serializer = UserSerializer(obj.user)
+    #return serializer.data
