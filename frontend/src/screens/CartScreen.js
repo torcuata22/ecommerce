@@ -16,9 +16,9 @@ import { addToCart, removeFromCart } from "../actions/cartActions";
 function CartScreen() {
   const navigate = useNavigate();
   const match = useParams();
-  const location = useLocation();
+  //const location = useLocation();
   const productId = match.id;
-  const qty = 1; //this works in the cart
+  const qty = Number(1); //this works in the cart
   //location.search ? location.search.split("=")[1] : 1;
 
   const dispatch = useDispatch();

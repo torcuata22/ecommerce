@@ -40,14 +40,15 @@ function PaymentScreen() {
                 onChange={(e) => setPaymentMethod(e.target.value)}
               ></Form.Check>
 
+              {/* If I try to add this, it doesn't register as a payment method, it keeps saying PayPal 
               <Form.Check
                 type="radio"
                 label="Credit Card"
-                id="creditcard"
+                id="creditCard"
                 name="paymentMethod"
                 checked
                 onChange={(e) => setPaymentMethod(e.target.value)}
-              ></Form.Check>
+              ></Form.Check> */}
             </Col>
           </Form.Group>
 
