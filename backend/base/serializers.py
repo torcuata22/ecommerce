@@ -62,7 +62,7 @@ class OrderSerializer(serializers.ModelSerializer):
     
     def get_shippingAddress(self,obj):
         try:
-            address = ShippingAddressSerializer(obj.shippingAddress, many=False) #we can do it like this because this is  a 1:1 field
+            address = ShippingAddressSerializer(obj.shippingaddress, many=False).data #we can do it like this because this is  a 1:1 field
         except:
             address = False
             
