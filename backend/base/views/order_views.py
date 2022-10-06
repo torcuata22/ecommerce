@@ -88,3 +88,13 @@ def updateOrderToPaid(request, pk):
      order.save()
      
      return Response('Order was paid')
+ 
+# @api_view(['PUT']) 
+# @permission_classes([IsAuthenticated])
+# def updateOrderToDelivered(request, pk):
+#      order = Order.objects.get(id = pk)
+#      order.isDelivered = True
+#      order.deliveredAt = datetime.now() #takes snapshot of when the order was paid
+#      order.save()
+     
+#      return Response('Order was delivered')
