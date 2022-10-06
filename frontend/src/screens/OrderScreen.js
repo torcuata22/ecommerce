@@ -55,6 +55,13 @@ function OrderScreen() {
                 {"  "}
                 {order.shippingAddress.zipCode}, {order.shippingAddress.country}
               </p>
+              {order.isDelivered ? (
+                <Message variant="success">
+                  Delivered on {order.deliveredAt}
+                </Message>
+              ) : (
+                <Message variant="warning">Not Delivered</Message>
+              )}
             </ListGroup.Item>
 
             <ListGroup.Item>
@@ -63,6 +70,12 @@ function OrderScreen() {
                 <strong>Payment Method: </strong>
                 {order.paymentMethod}
               </p>
+              {/* "isPaid" is NOT WORKING, I change it in Django, but it doesn't do it here */}
+              {order.is_Paid ? (
+                <Message variant="success">Paid on {order.paidAt}</Message>
+              ) : (
+                <Message variant="warning">Not Paid</Message>
+              )}
             </ListGroup.Item>
 
             <ListGroup.Item>
