@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link, useParams } from "react-router-dom";
 import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getOrderDetails } from "../actions/orderActions";
 
-function OrderScreen({ match }) {
-  const orderId = match.params.id;
+function OrderScreen() {
   const dispatch = useDispatch();
+  const match = useParams();
+  const orderId = match.id;
 
   const navigate = useNavigate();
 
@@ -27,7 +28,6 @@ function OrderScreen({ match }) {
     }
   }, [order, orderId]);
 
-  //THIS IS GIVING ME AN ERROR (START OVER)
   return loading ? (
     <Loader />
   ) : error ? (
@@ -40,6 +40,15 @@ function OrderScreen({ match }) {
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>Shipping</h2>
+              <p>
+                <strong>Name: </strong>
+                {order.user.name}
+              </p>
+              <p>
+                <strong>Email: </strong>
+                <a href={`mailto:%{order.user.email}`}>{order.user.email}</a>
+              </p>
+
               <p>
                 <strong>Shipping: </strong>
                 {order.shippingAddress.address}, {order.shippingAddress.city}
