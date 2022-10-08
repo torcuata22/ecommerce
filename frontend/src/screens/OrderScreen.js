@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation, Link, useParams } from "react-router-dom";
-import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { useNavigate, Link, useParams } from "react-router-dom";
+import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { PayPalButton } from "react-paypal-button-v2";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getOrderDetails, payOrder } from "../actions/orderActions";
+import { ORDER_PAY_RESET } from "../constants/orderConstants";
 
 //CLIENT ID (PAYPAL): ASfqRwUek-RSTQMUphkYQZx_6RtEpbDbbT6dz4CEHT6nb3oGE4HcZk5gOYDSkITfGwgAUC3T6vD2-i1z
 function OrderScreen() {
@@ -99,7 +100,6 @@ function OrderScreen() {
                 <strong>Payment Method: </strong>
                 {order.paymentMethod}
               </p>
-              {/* "isPaid" is NOT WORKING, I change it in Django, but it doesn't do it here */}
               {order.is_Paid ? (
                 <Message variant="success">Paid on {order.paidAt}</Message>
               ) : (
